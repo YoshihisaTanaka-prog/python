@@ -11,6 +11,9 @@ window.onload = function(){
   setParam();
 }
 
+function initializePhiTheta() {
+}
+
 function setParam(){
   var paramVal = "";
   paramVal = getParam("N");
