@@ -6,7 +6,77 @@ var delta = 0.01;
 var epsilon = 0.01;
 var isShowing = false;
 var intervalID = null;
-calcOptionalVariable();
+var paramData = {};
+window.onload = function(){
+  console.log("loaded");
+  setParam();
+}
+
+function setParam(){
+  var paramVal = "";
+  paramVal = getParam("N");
+  if(paramVal != null){
+    $("#N").val(paramVal);
+  }
+  paramVal = getParam("M");
+  if(paramVal!= null){
+    $("#M").val(paramVal);
+  }
+  paramVal = getParam("delta");
+  if(paramVal!= null){
+    $("#delta").val(paramVal);
+  }
+  paramVal = getParam("epsilon");
+  if(paramVal!= null){
+    $("#epsilon").val(paramVal);
+  }
+  paramVal = getParam("lambda_r");
+  if(paramVal!= null){
+    $("#lambda_r").val(paramVal);
+  }
+  paramVal = getParam("nu");
+  if(paramVal!= null){
+    $("#nu").val(paramVal);
+  }
+  paramVal = getParam("j_0");
+  if(paramVal!= null){
+    $("#j_0").val(paramVal);
+  }
+  paramVal = getParam("sin_0");
+  if(paramVal!= null){
+    $("#sin_0").val(paramVal);
+  }
+  paramVal = getParam("cos_0");
+  if(paramVal!= null){
+    $("#cos_0").val(paramVal);
+  }
+  paramVal = getParam("sin_l");
+  if(paramVal!= null){
+    $("#sin_l").val(paramVal);
+  }
+  paramVal = getParam("cos_l");
+  if(paramVal!= null){
+    $("#cos_l").val(paramVal);
+  }
+  paramVal = getParam("T");
+  if(paramVal!= null){
+    $("#T").val(paramVal);
+  }
+  calcOptionalVariable();
+}
+
+function getParam(name) {
+  if(Object.keys(paramData).length == 0){
+    const params = $(location).attr("search");
+    for(let param of params.slice(1).split("&")){
+      if(param != ""){
+        let parameters = param.split("=");
+        paramData[parameters[0]] = parameters[1];
+      }
+    }
+  }
+  return paramData[name];
+}
 
 function calcOptionalVariable(){
   N = Number($("#N").val());
