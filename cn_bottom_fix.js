@@ -9,7 +9,9 @@ function calc() {
   epsilon = Number($("#epsilon").val());
   const lambda_r = Number($("#lambda_r").val());
   const nu = Number($("#nu").val());
-  const j_0_const = Number($("#j_0").val());
+  const lambda = N*epsilon;
+  const j_l_const = Number($("#j_l").val());
+  const j_0_const = j_l_const + nu*lambda_r*(1-Math.exp(-lambda/lambda_r));
   const sin = Number($("#sin_0").val());
   const cos = Number($("#cos_0").val());
   const T = Number($("#T").val());
@@ -19,9 +21,11 @@ function calc() {
   }
   Theta = [[]]
   phi = [[1.0]]
+  const c = Math.sqrt(J0[0]);
+  const a = (6*c - 2*Math.sqrt(c*c - nu*lambda_r*(1 - Math.exp(-lambda/lambda_r)))) /lambda/lambda/lambda;
   for (let i = 0; i < N; i++) {
-    Theta[0].push(Math.sqrt(J0[0]));
-    phi[0].push(phi[0][i] * (1 - epsilon*Theta[0][i]));
+    Theta[0].push( a/3*i*epsilon*i*epsilon*i*epsilon - a*lambda/2*i*epsilon*i*epsilon + c );
+    phi[0].push(phi[0][i] * (1.0 - epsilon*Theta[0][i]));
   }
   for(let j=0; j<M; j++){
     $("#status").text((j+1) + "/" + M);
@@ -37,8 +41,6 @@ function calc() {
     }
     A.push([0.0, phi[j][N], -phi[j][N-1], 0.0, 0.0]);
     b.push(0);
-    // writeA(A, "a-first");
-    // writeB(b, "b-first");
     for(let i=0; i<N; i++) {
       let k = A[i+1][1] / A[i][2];
       A[i+1][1] = A[i+1][1] - k*A[i][2];
@@ -46,8 +48,6 @@ function calc() {
       A[i+1][3] = A[i+1][3] - k*A[i][4];
       b[i+1] = b[i+1] - k*b[i];
     }
-    // writeA(A, "a-last");
-    // writeB(b, "b-last");
     phi.push([b[N] / A[N][2]])
     for(let i=1; i<N; i++) {
       let ii = N-i;

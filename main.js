@@ -8,7 +8,6 @@ var isShowing = false;
 var intervalID = null;
 var paramData = {};
 window.onload = function(){
-  console.log("loaded");
   setParam();
 }
 
@@ -84,11 +83,34 @@ function calcOptionalVariable(){
   delta = Number($("#delta").val());
   epsilon = Number($("#epsilon").val());
   $("#lambda-span").text((N*epsilon).toFixed(2));
+  const j_l_const = Number($("#j_l").val());
+  const nu = Number($("#nu").val());
+  const lambda_r = Number($("#lambda_r").val());
+  const j_0_const = j_l_const + nu*lambda_r*(1-Math.exp(-N*epsilon/lambda_r));
+  $("#J0-span").text((j_0_const).toFixed(2));
+  $("#time-range").attr("min", 0).attr("max", M).val(timeI).css("width", "50%");
+}
+
+function changeTime() {
+  timeI = Number($("#time-range").val());
 }
 
 var timeI = 0;
 
 function show() {
+  var min = 1;
+  var max = 0;
+  for(let theta of Theta){
+    var m = Math.min(...theta);
+    if(min > m){
+      min = m;
+    }
+    m = Math.max(...theta);
+    if(max < m){
+      max = m;
+    }
+  }
+  $("#values").text([min,max].toString());
   timeI = 0;
   intervalID = setInterval(showSVG, delta*1000);
 }
@@ -100,7 +122,7 @@ function stop(){
 }
 
 function showSVG(){
-  $("#svg").html("<text x='500' y='690'>ζ</text><text x='0' y='350'>Θ,φ</text><text x='120' y='20'>Θ</text><polyline stroke-width='2' stroke='#00f' points='135,15 200,15' /><text x='120' y='40'>φ</text><polyline stroke-width='2' stroke='#0f0' points='135,35 200,35' />");
+  $("#svg").html("<text x='500' y='690'>ζ</text><text x='0' y='350'>Θ,φ</text><text x='120' y='20'>Θ</text><polyline stroke-width='2' stroke='#00f' points='135,15 200,15' /><text x='120' y='40'>φ</text><polyline stroke-width='2' stroke='#0f0' points='135,35 200,35' /><text x='500' y='35'>t=" + (timeI*delta).toFixed(3) + " J_l=" + ((phi[timeI][N-2] - 2*phi[timeI][N-1] + phi[timeI][N])/epsilon/epsilon/phi[timeI][N-1])  + "</text>");
   for(i=0; i<=10; i++){
     $("#svg").append("<polyline stroke-width='0.5' stroke='#000' points='100," + calcY(i/10) + " 1000," + calcY(i/10) + "' fill='none'/>");
     $("#svg").append("<text x='50' y='" + calcY(i/10) + "'>" + (i/10).toFixed(2) + "</text>");
@@ -122,6 +144,7 @@ function showSVG(){
   $("#svg").append("<polyline stroke-width='2' stroke='#00f' points='" + thetaString + "' fill='none'/>");
 
   $("#svg").html( $("#svg").html() );
+  $("#time-range").val(timeI);
   timeI++;
   timeI = timeI % M;
 }

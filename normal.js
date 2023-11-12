@@ -9,9 +9,9 @@ function calc() {
   epsilon = Number($("#epsilon").val());
   const lambda_r = Number($("#lambda_r").val());
   const nu = Number($("#nu").val());
-  const j_0_const = Number($("#j_0").val());
   const lambda = N*epsilon;
-  const j_l_const = j_0_const - nu*lambda_r*(1.0 - Math.exp(-lambda/lambda_r));
+  const j_l_const = Number($("#j_l").val());
+  const j_0_const = j_l_const + nu*lambda_r*(1-Math.exp(-lambda/lambda_r));
   const sin_0 = Number($("#sin_0").val());
   const cos_0 = Number($("#cos_0").val());
   const sin_l = Number($("#sin_l").val());
@@ -21,8 +21,8 @@ function calc() {
   var Jl = []
   for (let j = 0; j <=M; j++) {
     J0.push(j_0_const + sin_0* Math.sin(j * delta / T * 2 * Math.PI) + cos_0* Math.cos(j * delta / T * 2 * Math.PI));
-    // Jl.push(j_l_const + sin_l* Math.sin(j * delta / T * 2 * Math.PI) + cos_l* Math.cos(j * delta / T * 2 * Math.PI));
-    Jl.push(0);
+    Jl.push(j_l_const + sin_l* Math.sin(j * delta / T * 2 * Math.PI) + cos_l* Math.cos(j * delta / T * 2 * Math.PI));
+    // Jl.push(0);
   }
   Theta = [[]]
   phi = [[1.0]]
