@@ -18,11 +18,10 @@ function calc() {
   const cos_l = Number($("#cos_l").val());
   const T = Number($("#T").val());
   var J0 = [];
-  var Jl = []
+  var Jl = [];
   for (let j = 0; j <=M; j++) {
     J0.push(j_0_const + sin_0* Math.sin(j * delta / T * 2 * Math.PI) + cos_0* Math.cos(j * delta / T * 2 * Math.PI));
     Jl.push(j_l_const + sin_l* Math.sin(j * delta / T * 2 * Math.PI) + cos_l* Math.cos(j * delta / T * 2 * Math.PI));
-    // Jl.push(0);
   }
   Theta = [[]]
   phi = [[1.0]]
