@@ -11,7 +11,15 @@ window.onload = function(){
   setParam();
 }
 
-function initializePhiTheta() {
+function initializePhiTheta(j0, nu, lambda_r) {
+  phi = [[1, 1-epsilon]];
+  for (let i=1; i<N; i++) {
+    phi[0].push( (2 + ( j0 - nu*lambda_r*(1 - Math.exp(-i*epsilon/lambda_r)) )*epsilon*epsilon )*phi[0][i] - phi[0][i-1] );
+  }
+  Theta = [[]];
+  for(let i=0; i<N; i++){
+    Theta[0].push( (phi[0][i] - phi[0][i+1]) / epsilon / phi[0][i]);
+  }
 }
 
 function setParam(){
@@ -125,7 +133,7 @@ function stop(){
 }
 
 function showSVG(){
-  $("#svg").html("<text x='500' y='690'>ζ</text><text x='0' y='350'>Θ,φ</text><text x='120' y='20'>Θ</text><polyline stroke-width='2' stroke='#00f' points='135,15 200,15' /><text x='120' y='40'>φ</text><polyline stroke-width='2' stroke='#0f0' points='135,35 200,35' /><text x='500' y='35'>t=" + (timeI*delta).toFixed(3) + " J_l=" + ((phi[timeI][N-2] - 2*phi[timeI][N-1] + phi[timeI][N])/epsilon/epsilon/phi[timeI][N-1])  + "</text>");
+  $("#svg").html("<text x='500' y='690'>ζ</text><text x='0' y='350'>Θ,φ</text><text x='120' y='20'>Θ</text><polyline stroke-width='2' stroke='#00f' points='135,15 200,15' /><text x='120' y='40'>φ</text><polyline stroke-width='2' stroke='#0f0' points='135,35 200,35' /><text x='500' y='35'>t=" + (timeI*delta).toFixed(3) + " J_l=" + ((phi[timeI][N-2] - 2*phi[timeI][N-1] + phi[timeI][N])/epsilon/epsilon/phi[timeI][N-1]).toFixed(3)  + "</text>");
   for(i=0; i<=10; i++){
     $("#svg").append("<polyline stroke-width='0.5' stroke='#000' points='100," + calcY(i/10) + " 1000," + calcY(i/10) + "' fill='none'/>");
     $("#svg").append("<text x='50' y='" + calcY(i/10) + "'>" + (i/10).toFixed(2) + "</text>");

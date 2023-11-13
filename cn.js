@@ -23,14 +23,7 @@ function calc() {
     J0.push(j_0_const + sin_0* Math.sin(j * delta / T * 2 * Math.PI) + cos_0* Math.cos(j * delta / T * 2 * Math.PI));
     Jl.push(j_l_const + sin_l* Math.sin(j * delta / T * 2 * Math.PI) + cos_l* Math.cos(j * delta / T * 2 * Math.PI));
   }
-  Theta = [[]]
-  phi = [[1.0]]
-  const c = Math.sqrt(J0[0]);
-  const a = (6*c - 2*Math.sqrt(c*c - nu*lambda_r*(1 - Math.exp(-lambda/lambda_r)))) /lambda/lambda/lambda;
-  for (let i = 0; i < N; i++) {
-    Theta[0].push( a/3*i*epsilon*i*epsilon*i*epsilon - a*lambda/2*i*epsilon*i*epsilon + c );
-    phi[0].push(phi[0][i] * (1.0 - epsilon*Theta[0][i]));
-  }
+  initializePhiTheta(j_0_const, nu, lambda_r);
   for(let j=0; j<M; j++){
     $("#status").text((j+1) + "/" + M);
     var A = [];
