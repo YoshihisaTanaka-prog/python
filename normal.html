@@ -23,7 +23,7 @@
       <tr><td align="center">N</td><td>=</td><td align="center"><input type="number" id="N" value="700" onchange="calcOptionalVariable()"></td></tr>
       <tr><td align="center">λ</td><td>=</td><td align="center"><span id="lambda-span">70.00</span></td></tr>
       <tr><td align="center">δ</td><td>=</td><td align="center"><input type="number" id="delta" value="0.004" step="0.0001"></td></tr>
-      <tr><td align="center">M</td><td>=</td><td align="center"><input type="number" id="M" value="10000"></td></tr>
+      <tr><td align="center">M</td><td>=</td><td align="center"><input type="number" id="M" value="10000" onchange="calcOptionalVariable()"></td></tr>
       <tr><td align="center">T</td><td>=</td><td align="center"><input type="number" id="T" value="4" min="1" max="100" step="0.01"></td></tr>
       <tr><td align="center">λ_r</td><td>=</td><td align="center"><input type="number" id="lambda_r" value="1" step="0.0001" onchange="calcOptionalVariable()"></td></tr>
       <tr><td align="center">ν</td><td>=</td><td align="center"><input type="number" id="nu" value="0.1" step="0.0001" onchange="calcOptionalVariable()"></td></tr>
@@ -31,12 +31,12 @@
       <tr><td align="center">J0</td><td>=</td><td align="center">J0_constant + <input type="number" id="sin_0" value="-0.1" step="0.0001"> sin(2πt/T) + <input type="number" id="cos_0" value="0" step="0.0001"> cos(2πt/T) </td></tr>
       <tr><td align="center">Jλ_constant</td><td>=</td><td align="center"><input type="number" id="j_l" value="0" step="0.0001" onchange="calcOptionalVariable()"></td></tr>
       <tr><td align="center">Jλ</td><td>=</td><td align="center">Jλ_constant + <input type="number" id="sin_l" value="-0.1" step="0.0001"> sin(2πt/T) + <input type="number" id="cos_l" value="0" step="0.0001"> cos(2πt/T) </td></tr>
-      <tr style="border: none;"><td colspan="3" align="center"><button onclick="calc()">計算</button><button id="stop" onclick="stop()">停止</button></td></tr>
+      <tr style="border: none;"><td colspan="3" align="center"><button id="calc" onclick="calc()">計算</button><button id="stop" onclick="stop()">停止</button></td></tr>
     </table>
     <center>
       <input type="range" id="time-range" oninput="changeTime()">
       <svg id="svg" width="1000" height="700" viewBox="0 0 1000 700"></svg>
     </center>
-    <textarea style="display: none;" id="values"></textarea>
+    <div id="values"></div>
   </body>
 </html>
