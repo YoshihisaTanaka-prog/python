@@ -30,11 +30,9 @@ function calc() {
     var b = [];
     A.push([0.0, 0.0, 1.0, -epsilon*epsilon*J0[j]-2, 1.0]);
     b.push(0);
-    var exp = 1.0
     for (let i = 1; i < N; i++) {
-      A.push([0.0, -delta/epsilon/epsilon, delta*2/epsilon/epsilon - delta*(nu*lambda_r*(1 - exp) - j_0_const) + 2, -delta/epsilon/epsilon, 0.0]);
-      b.push((phi[j][i-1]/epsilon/epsilon + (-2.0/epsilon/epsilon + nu*lambda_r*(1 - exp) - j_0_const) * phi[j][i] + phi[j][i+1]/epsilon/epsilon)*delta + 2*phi[j][i]);
-      exp *= (1 - epsilon/lambda_r)
+      A.push([0.0, -delta/epsilon/epsilon, delta*2/epsilon/epsilon - delta*(nu*lambda_r*(1 - Math.exp(-i*epsilon/lambda_r)) - j_0_const) + 2, -delta/epsilon/epsilon, 0.0]);
+      b.push((phi[j][i-1]/epsilon/epsilon + (-2.0/epsilon/epsilon + nu*lambda_r*(1 - Math.exp(-i*epsilon/lambda_r)) - j_0_const) * phi[j][i] + phi[j][i+1]/epsilon/epsilon)*delta + 2*phi[j][i]);
     }
     A.push([1.0, -2-epsilon*epsilon*Jl[j], 1.0, 0.0, 0.0]);
     b.push(0);

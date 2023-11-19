@@ -14,7 +14,7 @@ window.onload = function(){
 function initializePhiTheta(j0, nu, lambda_r) {
   phi = [[1, 1-epsilon]];
   for (let i=1; i<N; i++) {
-    phi[0].unshift( (2 + ( j0 - nu*lambda_r*(1 - Math.exp(-(N-i-1)*epsilon/lambda_r)) )*epsilon*epsilon )*phi[0][0] - phi[0][1] );
+    phi[0].unshift( (2 + ( j0 - nu*lambda_r*(1 - Math.exp(-(N-i)*epsilon/lambda_r)) )*epsilon*epsilon )*phi[0][0] - phi[0][1] );
   }
   const phi_0 = phi[0][0];
   for (let i=0; i<=N; i++) {
@@ -27,7 +27,7 @@ function initializePhiTheta(j0, nu, lambda_r) {
   if(Theta[0][0] > 1){
     phi = [[1, 1-epsilon]];
     for (let i=1; i<N; i++) {
-      phi[0].push( (2 + ( j0 - nu*lambda_r*(1 - Math.exp(-(i)*epsilon/lambda_r)) )*epsilon*epsilon )*phi[0][i] - phi[0][i-1] );
+      phi[0].push( (2 + ( j0 - nu*lambda_r*(1 - Math.exp(-i*epsilon/lambda_r)) )*epsilon*epsilon )*phi[0][i] - phi[0][i-1] );
     }
     Theta = [[]];
     for(let i=0; i<N; i++){
