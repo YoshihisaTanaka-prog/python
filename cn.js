@@ -30,13 +30,13 @@ function calc() {
     var b = [];
     A.push([0.0, 0.0, 1.0, -epsilon*epsilon*J0[j]-2, 1.0]);
     b.push(0);
-    for (let i = 1; i < N; i++) {
-      A.push([0.0, -delta/epsilon/epsilon, delta*2/epsilon/epsilon - delta*(nu*lambda_r*(1 - Math.exp(-i*epsilon/lambda_r)) - j_0_const) + 2, -delta/epsilon/epsilon, 0.0]);
-      b.push((phi[j][i-1]/epsilon/epsilon + (-2.0/epsilon/epsilon + nu*lambda_r*(1 - Math.exp(-i*epsilon/lambda_r)) - j_0_const) * phi[j][i] + phi[j][i+1]/epsilon/epsilon)*delta + 2*phi[j][i]);
+    for (let i = 1; i < N+2; i++) {
+      A.push([0.0, -delta/epsilon/epsilon, delta*2/epsilon/epsilon - delta*(nu*lambda_r*(1 - Math.exp(-(i-1)*epsilon/lambda_r)) - j_0_const) + 2, -delta/epsilon/epsilon, 0.0]);
+      b.push((phi[j][i-1]/epsilon/epsilon + (-2.0/epsilon/epsilon + nu*lambda_r*(1 - Math.exp(-(i-1)*epsilon/lambda_r)) - j_0_const) * phi[j][i] + phi[j][i+1]/epsilon/epsilon)*delta + 2*phi[j][i]);
     }
     A.push([1.0, -2-epsilon*epsilon*Jl[j], 1.0, 0.0, 0.0]);
     b.push(0);
-    for(let i=0; i<N-1; i++) {
+    for(let i=0; i<N+1; i++) {
       var k = A[i+1][1] / A[i][2];
       A[i+1][1] = A[i+1][1] - k*A[i][2];
       A[i+1][2] = A[i+1][2] - k*A[i][3];
@@ -48,22 +48,22 @@ function calc() {
       A[i+2][2] = A[i+2][2] - k*A[i][4];
       b[i+2] = b[i+2] - k*b[i];
     }
-    for (let i=N-1; i<N; i++) {
+    for (let i=N+1; i<N+2; i++) {
       var k = A[i+1][1] / A[i][2];
       A[i+1][1] = A[i+1][1] - k*A[i][2];
       A[i+1][2] = A[i+1][2] - k*A[i][3];
       A[i+1][3] = A[i+1][3] - k*A[i][4];
       b[i+1] = b[i+1] - k*b[i];
     }
-    phi.push([b[N] / A[N][2]])
-    for(let i=1; i<N; i++) {
-      let ii = N-i;
+    phi.push([b[N+2] / A[N+2][2]])
+    for(let i=1; i<N+2; i++) {
+      let ii = N+2-i;
       phi[j+1].unshift((b[ii] - A[ii][3]*phi[j+1][0]) / A[ii][2])
     }
     phi[j+1].unshift( (b[0] - A[0][3]* phi[j+1][0] - A[0][4]* phi[j+1][1] )/A[0][2]);
     Theta.push([])
-    for(let i=0; i<N; i++){
-      Theta[j+1].push( (phi[j+1][i] - phi[j+1][i+1]) / phi[j+1][i] / epsilon)
+    for(let i=0; i<=N; i++){
+      Theta[j+1].push( (phi[j+1][i+1] - phi[j+1][i+2]) / phi[j+1][i+1] / epsilon)
     }
   }
   $("#status").text("");

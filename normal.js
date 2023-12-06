@@ -28,12 +28,12 @@ function calc() {
     $("#status").text((j+1) + "/" + M);
     phi.push([0.0]);
     Theta.push([]);
-    for(let i=1; i<N; i++){
-      phi[j+1].push(phi[j][i] + delta * ( ( phi[j][i-1] - 2 * phi[j][i] + phi[j][i+1] )/epsilon/epsilon + phi[j][i] * (nu * lambda_r *(1 - Math.exp(-i*epsilon/lambda_r)) - j_0_const) ));
+    for(let i=1; i<N+2; i++){
+      phi[j+1].push(phi[j][i] + delta * ( ( phi[j][i-1] - 2 * phi[j][i] + phi[j][i+1] )/epsilon/epsilon + phi[j][i] * (nu * lambda_r *(1 - Math.exp((1-i)*epsilon/lambda_r)) - j_0_const) ));
     }
     phi[j+1][0] = (2 + epsilon*epsilon * J0[j+1]) * phi[j+1][1] - phi[j+1][2];
-    phi[j+1].push( (2 + epsilon*epsilon * Jl[j+1]) * phi[j+1][N-1] - phi[j+1][N-2] );
-    for(let i=0; i<N; i++){
+    phi[j+1].push( (2 + epsilon*epsilon * Jl[j+1]) * phi[j+1][N+1] - phi[j+1][N] );
+    for(let i=1; i<N+2; i++){
       Theta[j+1].push( (phi[j+1][i] - phi[j+1][i+1]) / epsilon / phi[j+1][i] );
     }
   }
