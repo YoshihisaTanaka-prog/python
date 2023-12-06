@@ -114,7 +114,7 @@ function calcOptionalVariable(){
   const nu = Number($("#nu").val());
   const lambda_r = Number($("#lambda_r").val());
   const j_0_const = j_l_const + nu*lambda_r*(1-Math.exp(-N*epsilon/lambda_r));
-  $("#J0-span").text((j_0_const).toFixed(2));
+  $("#J0-span").text((j_0_const).toFixed(5));
   $("#time-range").attr("min", 0).attr("max", M).val(timeI).css("width", "50%");
 }
 
