@@ -7,8 +7,8 @@ function calc() {
   M = Number($("#M").val());
   delta = Number($("#delta").val());
   epsilon = Number($("#epsilon").val());
-  const lambda_r = Number($("#lambda_r").val());
-  const nu = Number($("#nu").val());
+  lambda_r = Number($("#lambda_r").val());
+  nu = Number($("#nu").val());
   const lambda = N*epsilon;
   const j_l_const = Number($("#j_l").val());
   const j_0_const = j_l_const + nu*lambda_r*(1-Math.exp(-lambda/lambda_r));

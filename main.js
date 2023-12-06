@@ -4,6 +4,8 @@ var N = 1;
 var M = 1;
 var delta = 0.01;
 var epsilon = 0.01;
+var nu = 0.1;
+var lambda_r = 1;
 var isShowing = false;
 var intervalID = null;
 var paramData = {};
@@ -14,15 +16,15 @@ window.onload = function(){
 function initializePhiTheta(j0, nu, lambda_r) {
   phi = [[1, 1-epsilon]];
   for (let i=1; i<N; i++) {
-    phi[0].unshift( (2 + ( j0 - nu*lambda_r*(1 - Math.exp(-(N-i)*epsilon/lambda_r)) )*epsilon*epsilon )*phi[0][0] - phi[0][1] );
-  }
-  const phi_0 = phi[0][0];
-  for (let i=0; i<=N; i++) {
-    phi[0][i] = phi[0][i] / phi_0;
+    phi[0].unshift( (2 + ( j0 - nu*lambda_r*(1 - Math.exp(-(N-i-1)*epsilon/lambda_r)) )*epsilon*epsilon )*phi[0][0] - phi[0][1] );
   }
   Theta = [[]];
   for(let i=0; i<N; i++){
     Theta[0].push( (phi[0][i] - phi[0][i+1]) / epsilon / phi[0][i]);
+  }
+  const phi_0 = phi[0][0];
+  for (let i=0; i<=N; i++) {
+    phi[0][i] = phi[0][i] / phi_0;
   }
   if(Theta[0][0] > 1){
     phi = [[1, 1-epsilon]];
@@ -156,6 +158,17 @@ function showSVG(){
   }
   var thetaString = "";
   var phiString = "";
+  var jString = "";
+  var rootString = "";
+  for (var i = 0; i <= N; i++) {
+    rootString += (" " + (i * 900 / N + 100)  + "," + calcY(nu*Math.exp(-i*epsilon/lambda_r)));
+  }
+  rootString = rootString.slice(1);
+  for (var i = 1; i < N; i++) {
+    let j = (phi[timeI][i-1] - 2*phi[timeI][i] + phi[timeI][i+1]) / phi[timeI][i]/epsilon/epsilon;
+    jString += (" " + (i * 900 / N + 100)  + "," + calcY(j));
+  }
+  jString = jString.slice(1)
   for (var i = 0; i < N; i++) {
     thetaString += (" " + (i * 900 / N + 100)  + "," + calcY(Theta[timeI][i]));
   }
@@ -167,6 +180,8 @@ function showSVG(){
 
   $("#svg").append("<polyline stroke-width='2' stroke='#0f0' points='" + phiString + "' fill='none'/>");
   $("#svg").append("<polyline stroke-width='2' stroke='#00f' points='" + thetaString + "' fill='none'/>");
+  $("#svg").append("<polyline stroke-width='2' stroke='#f00' points='" + rootString + "' fill='none'/>");
+  $("#svg").append("<polyline stroke-width='2' stroke='#ff0' points='" + jString + "' fill='none'/>");
 
   $("#svg").html( $("#svg").html() );
   $("#time-range").val(timeI);
